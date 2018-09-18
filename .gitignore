@@ -1,1 +1,12 @@
 .idea
+*.robot
+my*/
+[0-9]*/
+demo*/
+demo*
+*.log
+*[0-9]*/
+*.swp
+*.pyc
+*.pyo
+*py_bk

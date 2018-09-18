@@ -48,8 +48,10 @@ DatabaseDisconnect
     Disconnect from Database
 
 # checked: 8.0 ok
-MainMenu    [Arguments]    ${menu}
-    Click Link				xpath=//div[@id='oe_main_menu_placeholder']/ul/li/a[@data-menu='${menu}']
+#yustas
+MainMenu    [Arguments]    ${menu}	${menuname}
+#MainMenu    [Arguments]    ${menu}
+    Click Link				xpath=//a[@class='oe_menu_toggler'][span[@class='oe_menu_text'][contains(.,'${menuname}')]]
     Wait Until Page Contains Element	xpath=//div[contains(@class, 'oe_secondary_menus_container')]/div[contains(@class, 'oe_secondary_menu') and not(contains(@style, 'display: none'))]	
     ElementPostCheck
 
