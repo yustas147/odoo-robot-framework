@@ -12,7 +12,8 @@ Library     XvfbRobot
 
 *** Keywords ***
 Set Up
-    Set Global Variable     ${ODOO_URL_DB}     http://${SERVER}:${ODOO_PORT}
+    Set Global Variable     ${ODOO_URL_DB}     https://${SERVER}/web/login
+    #Set Global Variable     ${ODOO_URL_DB}     http://${SERVER}:${ODOO_PORT}
 
     #ff default caps shoul be always present
     #${ff default caps}=         Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
@@ -24,20 +25,23 @@ Set Up
 
 # checked: 8.0 ok
 Login    [Arguments]    ${user}=${USER}    ${password}=${PASSWORD}    ${db}=${ODOO_DB}
-    Set Global Variable     ${ODOO_URL_DB}     http://${SERVER}:${ODOO_PORT}
+    Set Global Variable     ${ODOO_URL_DB}     https://${SERVER}/web/login
+    #Set Global Variable     ${ODOO_URL_DB}     http://${SERVER}:${ODOO_PORT}
     Open Browser                        ${ODOO_URL_DB}  browser=${BROWSER}
     Maximize Browser Window
     Go To                               ${ODOO_URL_DB}
     Set Selenium Speed                  ${SELENIUM_DELAY}
     Set Selenium Timeout                ${SELENIUM_TIMEOUT}
     Set Selenium Implicit Wait          ${SELENIUM_TIMEOUT}
-    Run Keyword If                      '${db}' != 'None'                   Wait Until Page Contains Element    xpath=//select[@id='db']
-    Run Keyword If                      '${db}' != 'None'                   Select From List By Value           xpath=//select[@id='db']    ${db}
+    #Run Keyword If                      '${db}' != 'None'                   Wait Until Page Contains Element    xpath=//select[@id='db']
+    #Run Keyword If                      '${db}' != 'None'                   Select From List By Value           xpath=//select[@id='db']    ${db}
     Wait Until Page Contains Element    name=login
     Input Text                          name=login  ${user}
     Input Password                      name=password   ${password}
-    Click Button                        xpath=//div[contains(@class,'oe_login_buttons')]/button[@type='submit']
+    Click Button                        xpath=//button[contains(text(),'Login')]
+    #Click Button                        xpath=//div[contains(@class,'oe_login_buttons')]/button[@type='submit']
     Wait Until Page Contains Element    xpath=//div[@id='oe_main_menu_placeholder']/ul/li/a/span
+    Go To                               ${ODOO_URL_DB}
 
 # checked: 8.0 ok
 DatabaseConnect    [Arguments]    ${odoo_db}=${ODOO_DB}    ${odoo_db_user}=${ODOO_DB_USER}    ${odoo_db_password}=${ODOO_DB_PASSWORD}    ${odoo_db_server}=${SERVER}    ${odoo_db_port}=${ODOO_DB_PORT}
@@ -46,6 +50,13 @@ DatabaseConnect    [Arguments]    ${odoo_db}=${ODOO_DB}    ${odoo_db_user}=${ODO
 # checked: 8.0 ok
 DatabaseDisconnect
     Disconnect from Database
+
+#yustas
+
+# checked: 8.0 ok
+#SubmenuToggle [Arguments]
+SubmenuToggle
+    ClickElement	xpath=//Button[@class='submenu-toggle']
 
 # checked: 8.0 ok
 #yustas
@@ -75,10 +86,11 @@ MainMenuXMLid    [Arguments]    ${Name}
     Run Keyword Unless          ${MainMenuID}       Fail    ERROR: Module or Name not correct
 
 
+#yustas
 # checked: 8.0 ok
 ChangeView    [Arguments]    ${view}
     Click Link                          xpath=//div[contains(@class,'openerp')][last()]//ul[contains(@class,'oe_view_manager_switch')]//a[contains(@data-view-type,'${view}')]
-    Wait Until Page Contains Element    xpath=//div[contains(@class,'openerp')][last()]//div[contains(@class,'oe_view_manager_view_${view}') and not(contains(@style, 'display: none'))]
+#    Wait Until Page Contains Element    xpath=//div[contains(@class,'openerp')][last()]//div[contains(@class,'oe_view_manager_view_${view}') and not(contains(@style, 'display: none'))]
     ElementPostCheck
 
 # main window
