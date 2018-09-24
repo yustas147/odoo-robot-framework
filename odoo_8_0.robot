@@ -244,10 +244,13 @@ SelectListView  [Arguments]    ${model}    @{fields}
     Click Element    xpath=${xpath}
     ElementPostCheck
 
-SidebarAction  [Arguments]    ${type}    ${id}
-    ClickElement   xpath=//div[contains(@class,'oe_view_manager_sidebar')]/div[not(contains(@style,'display: none'))]//div[contains(@class,'oe_sidebar')]//div[contains(@class,'oe_form_dropdown_section') and descendant::a[@data-bt-type='${type}' and @data-bt-id='${id}']]/button[contains(@class,'oe_dropdown_toggle')]
-    ClickLink   xpath=//div[contains(@class,'oe_view_manager_sidebar')]/div[not(contains(@style,'display: none'))]//div[contains(@class,'oe_sidebar')]//a[@data-bt-type='${type}' and @data-bt-id='${id}']
-    ElementPostCheck
+SidebarAction  [Arguments]    ${type}
+#SidebarAction  [Arguments]    ${type}    ${id}
+    ClickElement   xpath=//ul[@class='oe_dropdown_menu oe_opened']//a[@class='oe_sidebar_action_a'][contains(text(),'${type}')]
+#    ElementPostCheck
+
+SidebarActionMore  [Arguments]    ${type}
+    ClickElement   		xpath=//div[@class='oe_view_manager_sidebar']/div[not (@style)]//button[contains(text(),'${type}')]
 
 MainWindowButton            [Arguments]     ${button_text}
     Click Button            xpath=//td[@class='oe_application']//div[contains(@class,'oe_view_manager_current')]//button[contains(text(), '${button_text}')]
